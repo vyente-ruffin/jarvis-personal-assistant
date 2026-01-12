@@ -2,6 +2,100 @@
 
 > A voice-first AI assistant with persistent semantic memory that learns about you over time.
 
+---
+
+## Product Requirements Document (PRD)
+
+### Goal
+
+Build a personal AI assistant named **JARVIS** that creates a "sticky" user experience through persistent semantic memory. Unlike traditional assistants that forget between sessions, JARVIS learns and remembers like a roommate getting to know you over time.
+
+### Success Criteria
+
+1. **Voice Interaction**: Natural, low-latency conversation with interruption support
+2. **Memory Persistence**: Remembers user preferences, context, and patterns across sessions
+3. **Memory Transparency**: Clearly communicates what it remembers and learns
+4. **Vision Capability**: API endpoint for image understanding (webcam, smart glasses)
+5. **Web Browsing**: Autonomous web agent for research tasks
+6. **Extensibility**: MCP plugin architecture for future capabilities
+
+### Out of Scope (v1)
+
+- Multi-user support
+- Authentication (using IP whitelist for POC)
+- Smart home control (v2)
+- Calendar integration (v2)
+- Mobile app
+
+---
+
+## Milestones
+
+### Milestone 1: Foundation (MVP)
+**Goal**: Basic voice assistant with memory that can hold a conversation and remember things.
+
+| ID | Task | Priority | Status |
+|----|------|----------|--------|
+| M1.1 | Project scaffolding (backend + frontend structure) | P0 | Not Started |
+| M1.2 | FastAPI backend with WebSocket support | P0 | Not Started |
+| M1.3 | Gemini 2.5 Native Audio voice loop integration | P0 | Not Started |
+| M1.4 | Mem0 client integration for memory operations | P0 | Not Started |
+| M1.5 | Basic React web UI (voice interface + status) | P0 | Not Started |
+| M1.6 | Local development environment (docker-compose) | P0 | Not Started |
+| M1.7 | End-to-end voice conversation test | P0 | Not Started |
+
+**Deliverable**: Talk to JARVIS locally, it responds and remembers basic facts.
+
+---
+
+### Milestone 2: Azure Deployment
+**Goal**: Deploy to Azure with CI/CD pipeline and monitoring.
+
+| ID | Task | Priority | Status |
+|----|------|----------|--------|
+| M2.1 | Dockerfile for backend (with Playwright dependencies) | P0 | Not Started |
+| M2.2 | Azure Container Apps deployment config (Bicep/YAML) | P0 | Not Started |
+| M2.3 | Azure Static Web Apps for frontend | P0 | Not Started |
+| M2.4 | GitHub Actions CI/CD pipeline | P0 | Not Started |
+| M2.5 | IP whitelist security configuration | P0 | Not Started |
+| M2.6 | Application Insights integration | P1 | Not Started |
+| M2.7 | Health check endpoints | P1 | Not Started |
+| M2.8 | Production deployment verification | P0 | Not Started |
+
+**Deliverable**: JARVIS accessible via public URL (IP-restricted), auto-deploys on push.
+
+---
+
+### Milestone 3: Enhanced Capabilities
+**Goal**: Add vision and web browsing capabilities.
+
+| ID | Task | Priority | Status |
+|----|------|----------|--------|
+| M3.1 | Vision API endpoint (image analysis) | P1 | Not Started |
+| M3.2 | Web agent with Playwright (background browsing) | P1 | Not Started |
+| M3.3 | Tool calling framework for Gemini | P1 | Not Started |
+| M3.4 | Memory transparency improvements | P2 | Not Started |
+| M3.5 | Error handling and retry logic | P1 | Not Started |
+| M3.6 | Rokit smart glasses integration testing | P2 | Not Started |
+
+**Deliverable**: JARVIS can see images, browse the web, and multitask.
+
+---
+
+### Milestone 4: Extensibility
+**Goal**: MCP plugin architecture for future integrations.
+
+| ID | Task | Priority | Status |
+|----|------|----------|--------|
+| M4.1 | MCP server manager framework | P2 | Not Started |
+| M4.2 | Dynamic tool registration from MCP servers | P2 | Not Started |
+| M4.3 | Home Assistant MCP integration (v2 prep) | P3 | Not Started |
+| M4.4 | Google Calendar MCP integration (v2 prep) | P3 | Not Started |
+
+**Deliverable**: Framework ready for adding MCP servers as plugins.
+
+---
+
 ## Vision
 
 JARVIS is designed to be like a roommate that moves in with you - the more you interact, the more it understands who you are. Unlike traditional assistants that forget everything between sessions, JARVIS maintains a semantic memory that grows and evolves, creating a truly personalized experience.
@@ -14,13 +108,13 @@ JARVIS is designed to be like a roommate that moves in with you - the more you i
 
 ### Core (v1)
 
-| Feature | Description | Status |
-|---------|-------------|--------|
-| **Real-time Voice** | Natural conversation with low latency, interruption support | Planned |
-| **Persistent Memory** | Learns preferences, personal info, patterns over time | Planned |
-| **Vision API** | Understands what it sees via camera or smart glasses | Planned |
-| **Web Browsing** | Autonomous web agent for research and tasks | Planned |
-| **MCP Extensibility** | Plugin architecture for adding capabilities | Planned |
+| Feature | Description | Milestone |
+|---------|-------------|-----------|
+| **Real-time Voice** | Natural conversation with low latency, interruption support | M1 |
+| **Persistent Memory** | Learns preferences, personal info, patterns over time | M1 |
+| **Vision API** | Understands what it sees via camera or smart glasses | M3 |
+| **Web Browsing** | Autonomous web agent for research and tasks | M3 |
+| **MCP Extensibility** | Plugin architecture for adding capabilities | M4 |
 
 ### Future (v2+)
 
@@ -30,6 +124,7 @@ JARVIS is designed to be like a roommate that moves in with you - the more you i
 | Calendar Integration | Google Calendar MCP server |
 | Task Management | Todoist/Linear MCP integration |
 | Email Integration | Gmail MCP server |
+| Authentication | Proper user auth (replacing IP whitelist) |
 
 ---
 
@@ -51,6 +146,7 @@ JARVIS is designed to be like a roommate that moves in with you - the more you i
 ┌─────────────────────────────────────────────────────────────────┐
 │                Azure Container Apps Environment                  │
 │                (Shared VNet - Internal Communication)            │
+│                IP Whitelist: Owner's Public IP Only              │
 │                                                                  │
 │  ┌─────────────────────────────┐  ┌───────────────────────────┐ │
 │  │      jarvis-api (NEW)       │  │   jarvis-cloud (EXISTS)   │ │
@@ -65,10 +161,10 @@ JARVIS is designed to be like a roommate that moves in with you - the more you i
 │  │  ├───────────────────────┤  │  │                           │ │
 │  │  │ Vision Handler        │  │  └───────────────────────────┘ │
 │  │  │ (Camera/Glasses API)  │  │                                │
-│  │  ├───────────────────────┤  │                                │
-│  │  │ Web Agent             │  │                                │
-│  │  │ (Playwright Browser)  │  │                                │
-│  │  ├───────────────────────┤  │                                │
+│  │  ├───────────────────────┤  │  ┌───────────────────────────┐ │
+│  │  │ Web Agent             │  │  │   Application Insights    │ │
+│  │  │ (Playwright Browser)  │  │  │   (Logging/Monitoring)    │ │
+│  │  ├───────────────────────┤  │  └───────────────────────────┘ │
 │  │  │ MCP Server Manager    │  │                                │
 │  │  │ (Extensible Tools)    │  │                                │
 │  │  └───────────────────────┘  │                                │
@@ -98,6 +194,235 @@ JARVIS is designed to be like a roommate that moves in with you - the more you i
 | **Web Agent** | Gemini Computer Use + Playwright | Autonomous browser automation |
 | **Hosting** | Azure Container Apps | Serverless containers |
 | **CDN** | Azure Static Web Apps | Global frontend distribution |
+| **Monitoring** | Azure Application Insights | Logging, errors, performance |
+| **CI/CD** | GitHub Actions | Automated build and deploy |
+
+---
+
+## Security
+
+### POC Approach: IP Whitelisting
+
+For this proof-of-concept (single user), we use IP whitelisting instead of authentication:
+
+```yaml
+# Azure Container Apps ingress configuration
+ingress:
+  external: true
+  targetPort: 8000
+  ipSecurityRestrictions:
+    - name: allow-owner
+      ipAddressRange: "YOUR.PUBLIC.IP.ADDRESS/32"
+      action: Allow
+    - name: deny-all
+      ipAddressRange: "0.0.0.0/0"
+      action: Deny
+```
+
+### Security Checklist
+
+| Item | Status | Notes |
+|------|--------|-------|
+| HTTPS enforced | Auto | Azure provides SSL certificates |
+| IP whitelist | Planned | Container Apps ingress restriction |
+| Secrets in Key Vault | Planned | API keys stored securely |
+| No credentials in code | Required | Use environment variables |
+| CORS configuration | Planned | Restrict to frontend domain |
+
+### Future (v2)
+
+- Azure AD B2C or simple JWT authentication
+- Per-user memory isolation
+- Rate limiting
+
+---
+
+## Error Handling & Monitoring
+
+### Azure Application Insights
+
+All errors and telemetry are sent to Application Insights for monitoring:
+
+```python
+# backend/core/telemetry.py
+from opencensus.ext.azure.log_exporter import AzureLogHandler
+from opencensus.ext.azure.trace_exporter import AzureExporter
+import logging
+
+# Configure logging to Application Insights
+logger = logging.getLogger(__name__)
+logger.addHandler(AzureLogHandler(
+    connection_string=os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")
+))
+
+# Usage
+logger.info("Voice session started", extra={
+    "custom_dimensions": {"user_id": user_id, "session_id": session_id}
+})
+logger.error("Gemini API error", exc_info=True, extra={
+    "custom_dimensions": {"error_type": "gemini_timeout"}
+})
+```
+
+### Error Categories
+
+| Category | Handling | Alert Level |
+|----------|----------|-------------|
+| **Gemini API errors** | Retry 3x with backoff, notify user | Warning |
+| **Memory API errors** | Retry 2x, continue without memory | Warning |
+| **WebSocket disconnect** | Auto-reconnect with context restoration | Info |
+| **Playwright failures** | Cancel task, notify user | Warning |
+| **Unhandled exceptions** | Log full stack trace, return safe error | Error |
+
+### Health Checks
+
+```python
+# backend/api/routes/health.py
+@app.get("/health")
+async def health_check():
+    """Liveness probe for Container Apps"""
+    return {"status": "healthy"}
+
+@app.get("/health/ready")
+async def readiness_check():
+    """Readiness probe - checks dependencies"""
+    checks = {
+        "memory_api": await check_mem0_connection(),
+        "gemini_api": await check_gemini_connection(),
+    }
+    all_healthy = all(checks.values())
+    return {
+        "status": "ready" if all_healthy else "degraded",
+        "checks": checks
+    }
+```
+
+### Monitoring Dashboard
+
+Azure Application Insights provides:
+- Live metrics stream
+- Request/response times
+- Error rates and stack traces
+- Custom events (voice sessions, memory operations)
+- Alerts on failure thresholds
+
+---
+
+## CI/CD Pipeline
+
+### GitHub Actions Workflow
+
+```yaml
+# .github/workflows/deploy.yml
+name: Build and Deploy JARVIS
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  AZURE_CONTAINER_REGISTRY: ${{ secrets.ACR_NAME }}
+  RESOURCE_GROUP: jarvis-rg
+  CONTAINER_APP_NAME: jarvis-api
+
+jobs:
+  # ============================================
+  # Backend: Build and Deploy
+  # ============================================
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run tests
+        working-directory: ./backend
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+          pytest tests/ -v
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and push to ACR
+        run: |
+          az acr build \
+            --registry ${{ env.AZURE_CONTAINER_REGISTRY }} \
+            --image jarvis-api:${{ github.sha }} \
+            --image jarvis-api:latest \
+            ./backend
+
+      - name: Deploy to Container Apps
+        if: github.ref == 'refs/heads/main'
+        run: |
+          az containerapp update \
+            --name ${{ env.CONTAINER_APP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/jarvis-api:${{ github.sha }}
+
+  # ============================================
+  # Frontend: Build and Deploy
+  # ============================================
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install and build
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy to Static Web Apps
+        if: github.ref == 'refs/heads/main'
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: upload
+          app_location: /frontend
+          output_location: dist
+```
+
+### Deployment Flow
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Push to   │────▶│   GitHub    │────▶│   Build &   │────▶│  Deploy to  │
+│    main     │     │   Actions   │     │    Test     │     │    Azure    │
+└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+                                              │
+                                              ▼
+                                        ┌─────────────┐
+                                        │  Run Tests  │
+                                        │  (pytest)   │
+                                        └─────────────┘
+```
+
+### Required GitHub Secrets
+
+| Secret | Description |
+|--------|-------------|
+| `AZURE_CREDENTIALS` | Service principal JSON for Azure login |
+| `ACR_NAME` | Azure Container Registry name |
+| `AZURE_STATIC_WEB_APPS_API_TOKEN` | Deployment token for Static Web Apps |
 
 ---
 
@@ -311,6 +636,9 @@ jarvis/
 ├── README.md
 ├── docker-compose.yml
 ├── .env.example
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # CI/CD pipeline
 │
 ├── backend/
 │   ├── Dockerfile
@@ -321,6 +649,7 @@ jarvis/
 │   ├── core/
 │   │   ├── voice_loop.py       # Gemini voice integration
 │   │   ├── memory_client.py    # Mem0 API client
+│   │   ├── telemetry.py        # Application Insights
 │   │   └── session.py          # User session management
 │   │
 │   ├── agents/
@@ -331,13 +660,18 @@ jarvis/
 │   │   ├── manager.py          # MCP server manager
 │   │   └── servers/            # MCP server configurations
 │   │
-│   └── api/
-│       ├── routes/
-│       │   ├── voice.py        # WebSocket voice endpoint
-│       │   ├── vision.py       # Vision API endpoint
-│       │   └── health.py       # Health checks
-│       └── middleware/
-│           └── auth.py         # Authentication (future)
+│   ├── api/
+│   │   ├── routes/
+│   │   │   ├── voice.py        # WebSocket voice endpoint
+│   │   │   ├── vision.py       # Vision API endpoint
+│   │   │   └── health.py       # Health checks
+│   │   └── middleware/
+│   │       └── error_handler.py # Global error handling
+│   │
+│   └── tests/
+│       ├── test_voice.py
+│       ├── test_memory.py
+│       └── test_health.py
 │
 ├── frontend/
 │   ├── package.json
@@ -364,7 +698,7 @@ jarvis/
 │       └── main.bicep          # Infrastructure as Code
 │
 └── scripts/
-    ├── deploy.sh               # Deployment script
+    ├── deploy.sh               # Manual deployment script
     └── dev.sh                  # Local development
 ```
 
@@ -380,6 +714,7 @@ jarvis/
 | jarvis-cloud | Container Apps | Already deployed (Mem0 + Qdrant) | Existing |
 | Frontend | Static Web Apps | Free tier | $0 |
 | Container Registry | ACR Basic | For container images | $5/mo |
+| Application Insights | Log Analytics | Basic tier | $0-5/mo |
 
 **Estimated Total: $10-30/month** (primarily Gemini API usage)
 
@@ -393,9 +728,18 @@ properties:
       external: true
       targetPort: 8000
       transport: http  # Required for WebSocket
+      ipSecurityRestrictions:
+        - name: allow-owner
+          ipAddressRange: "${ALLOWED_IP}/32"
+          action: Allow
+        - name: deny-all
+          ipAddressRange: "0.0.0.0/0"
+          action: Deny
     secrets:
       - name: gemini-api-key
         value: ${GEMINI_API_KEY}
+      - name: appinsights-connection
+        value: ${APPLICATIONINSIGHTS_CONNECTION_STRING}
   template:
     containers:
       - name: jarvis-api
@@ -408,6 +752,8 @@ properties:
             value: http://jarvis-cloud  # Internal DNS
           - name: GEMINI_API_KEY
             secretRef: gemini-api-key
+          - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+            secretRef: appinsights-connection
     scale:
       minReplicas: 1  # Prevent cold starts for WebSocket
       maxReplicas: 3
@@ -429,8 +775,8 @@ properties:
 
 ```bash
 # Clone repository
-git clone https://github.com/your-org/jarvis.git
-cd jarvis
+git clone https://github.com/vyente-ruffin/jarvis-personal-assistant.git
+cd jarvis-personal-assistant
 
 # Backend setup
 cd backend
@@ -459,6 +805,7 @@ GEMINI_API_KEY=your_gemini_api_key
 MEM0_API_URL=http://localhost:8765  # Or your jarvis-cloud URL
 MEM0_API_KEY=your_mem0_api_key      # If using cloud Mem0
 USER_ID=default_user
+APPLICATIONINSIGHTS_CONNECTION_STRING=  # For Azure monitoring
 ```
 
 ---
@@ -491,35 +838,6 @@ az containerapp update \
 
 ---
 
-## Roadmap
-
-### Phase 1: Foundation (Current)
-- [ ] Project setup and structure
-- [ ] Voice loop with Gemini 2.5 Native Audio
-- [ ] Memory integration with Mem0
-- [ ] Basic web UI
-- [ ] Azure deployment
-
-### Phase 2: Enhancement
-- [ ] Vision API for smart glasses
-- [ ] Web agent with Playwright
-- [ ] Improved memory transparency
-- [ ] User authentication
-
-### Phase 3: Extensibility
-- [ ] MCP server framework
-- [ ] Home Assistant integration
-- [ ] Google Calendar integration
-- [ ] Mobile-friendly UI
-
-### Phase 4: Polish
-- [ ] Wake word detection ("Hey JARVIS")
-- [ ] Multi-user support
-- [ ] Voice customization
-- [ ] Analytics dashboard
-
----
-
 ## References
 
 ### Inspiration
@@ -530,6 +848,7 @@ az containerapp update \
 - [Gemini Native Audio](https://ai.google.dev/gemini-api/docs/audio)
 - [Mem0 Documentation](https://docs.mem0.ai/)
 - [Azure Container Apps](https://learn.microsoft.com/en-us/azure/container-apps/)
+- [Azure Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 
 ---
