@@ -65,7 +65,7 @@ Build a personal AI assistant named **JARVIS** that creates a "sticky" user expe
 
 | ID | Task | Priority | Status |
 |----|------|----------|--------|
-| M1.1 | Project scaffolding (backend + frontend structure) | P0 | ✅ Done |
+| M1.1 | Project scaffolding (backend + frontend structure) | P0 | Not Started |
 | M1.2 | FastAPI backend with WebSocket support | P0 | Not Started |
 | M1.3 | Gemini 2.5 Native Audio voice loop integration | P0 | Not Started |
 | M1.4 | Mem0 client integration for memory operations | P0 | Not Started |
