@@ -329,13 +329,40 @@ async def analyze_image(
     return {"analysis": response}
 ```
 
-### Smart Glasses Integration (Rokit)
+### Smart Glasses Integration (Rokid)
 
-The vision API is designed to work with smart glasses:
+The vision API is designed to work with smart glasses. This project uses **Rokid Glasses** - the world's lightest full-function AI & AR smart glasses.
 
-1. Glasses capture image
+#### Hardware Specs
+
+| Spec | Value |
+|------|-------|
+| **Weight** | 49g |
+| **Camera** | 12MP professional-grade |
+| **Processor** | Qualcomm AR1, 2GB RAM, 32GB ROM |
+| **Display** | Dual microLED waveguides, 1500 nits, 480x398 |
+| **Audio** | Dual high-fidelity speakers |
+| **Battery** | 6h music playback (3000mAh case available) |
+| **Build** | IPX4, magnesium-aluminum alloy, prescription lens support |
+
+#### Integration Flow
+
+1. Glasses capture image via 12MP camera
 2. POST to `/api/vision/analyze`
-3. Response returned (can be spoken via glasses audio)
+3. Response returned and spoken via glasses audio
+4. Real-time translation available (89 languages)
+
+#### Rokid Resources
+
+| Resource | Description | Link |
+|----------|-------------|------|
+| **Rokid Glasses** | Main product page - AI & AR smart glasses | [global.rokid.com/pages/rokid-glasses](https://global.rokid.com/pages/rokid-glasses) |
+| **Rokid AR Platform (Sprite)** | AR platform web interface for developers | [ar.rokid.com/sprite](https://ar.rokid.com/sprite?lang=en) |
+| **Developer Forum** | Community forum for Rokid developers | [forum.rokid.com](https://forum.rokid.com/index) |
+| **Developer Portal** | SDK and API documentation portal | [custom.rokid.com (Portal)](https://custom.rokid.com/prod/rokid_web/57e35cd3ae294d16b1b8fc8dcbb1b7c7/pc/us/index.html) |
+| **SDK Documentation** | Technical SDK reference and guides | [custom.rokid.com (SDK)](https://custom.rokid.com/prod/rokid_web/57e35cd3ae294d16b1b8fc8dcbb1b7c7/pc/us/3fe1c87b945245bf8b6c50393f4da7b6.html) |
+| **GitHub - RokidGlass** | Official SDK repositories and docs | [github.com/RokidGlass](https://github.com/RokidGlass) |
+| **Glass2 Docs** | Latest developer documentation | [rokidglass.github.io/glass2-docs](https://rokidglass.github.io/glass2-docs/en/) |
 
 ---
 
